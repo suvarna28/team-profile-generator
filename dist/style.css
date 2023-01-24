@@ -1,0 +1,27 @@
+header {
+    padding: 50px;
+    background-color: rgb(213, 47, 75);
+    color: azure;
+    text-align: center;
+}
+
+main {
+    padding: 50px 250px;
+}
+
+.card-body {
+    background-color: rgb(59, 72, 254);
+    color: azure;
+}
+
+.card {
+    gap: .5rem;
+}
+
+.list-group {
+    padding: 25px 15px;
+}
+
+.items {
+    padding: auto;
+}
