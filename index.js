@@ -2,6 +2,7 @@ const inquirer = require('inquirer');
 const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
+const Employee = require('./lib/employee');
 const fs = require('fs');
 
 // Function that uses inquirer package's prompt method to ask a series of questions to the users to create the README file
@@ -9,7 +10,7 @@ function init() {
     inquirer.prompt([
         {
             type: 'input',
-            name: 'managername',
+            name: 'name',
             message: 'Enter you name',
         },
         {
@@ -35,31 +36,28 @@ function init() {
         },
     ])
         .then((data) => {
-            const manager = new Manager(data.managername, data.employeeID, data.email, data.officenumber)
-            console.log(manager);
+
+            const manager = new Manager(data.name, data.employeeID, data.email, data.officenumber)
             const myHTML = `<!DOCTYPE html>
     <html lang="en">
-    
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="./dist/style.css">
+        <link rel="icon" href="favicon.ico">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
         <title>Team Profile</title>
     </head>
-    
     <body>
         <header>
             <h4>My Team</h4>
         </header>
         <main>
             <section class="row" id="createcards">
-            
             </section>
         </main>
     </body>
-    
     </html>`;
 
             fs.writeFile('index.html', myHTML, (err) =>
@@ -71,19 +69,19 @@ function init() {
                     return console.log(err);
                 }
 
-                let addCard = `<div class="card" style="width: 18rem;">
+                let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
                     <div class="card-body">
                         <p>${manager.getName()}</p>
-                        <p>Manager</p>
+                        <p><img src="icon/coffee.ico"> Manager</p>
                     </div>
                     <div class="items">
                         <ul class="list-group">
-                            <li class="list-group-item">${manager.getId()}</li>
-                            <li class="list-group-item">${manager.getEmail()}</li>
-                            <li class="list-group-item">${manager.getOfficeNumber()}</li>
+                            <li class="list-group-item">ID: ${manager.getId()}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
+                            <li class="list-group-item">Office Number: ${manager.getOfficeNumber()}</li>
                         </ul>
                     </div>
-                </div>`;
+                </div></div>`;
 
                 let result = data.replace(/\<\/section>/g, addCard + '</section>');
 
@@ -108,7 +106,7 @@ function addEngineer() {
     inquirer.prompt([
         {
             type: 'input',
-            name: 'engineername',
+            name: 'name',
             message: 'Enter you name',
         },
         {
@@ -134,27 +132,27 @@ function addEngineer() {
         },
     ])
         .then((data) => {
-            const engineer = new Engineer(data.engineername, data.employeeID, data.email, data.githubusername)
-            console.log(engineer);
+
+            const engineer = new Engineer(data.name, data.employeeID, data.email, data.githubusername)
 
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
                 }
 
-                let addCard = `<div class="card" style="width: 18rem;">
+                let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
                     <div class="card-body">
                         <p>${engineer.getName()}</p>
-                        <p>Engineer</p>
+                        <p><img src="icon/glasses.ico"> Engineer</p>
                     </div>
                     <div class="items">
                         <ul class="list-group">
-                            <li class="list-group-item">${engineer.getId()}</li>
-                            <li class="list-group-item">${engineer.getEmail()}</li>
-                            <li class="list-group-item">${engineer.getGitHub()}</li>
+                            <li class="list-group-item">ID: ${engineer.getId()}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
+                            <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGitHub()}" target="_blank" class="card-link">${engineer.getGitHub()}</a></li>
                         </ul>
                     </div>
-                </div>`;
+                </div></div>`;
 
                 let result = data.replace(/\<\/section>/g, addCard + '</section>');
 
@@ -179,12 +177,12 @@ function addIntern() {
     inquirer.prompt([
         {
             type: 'input',
-            name: 'internname',
+            name: 'name',
             message: 'Enter you name',
         },
         {
             type: 'input',
-            name: 'internID',
+            name: 'employeeID',
             message: 'Enter your intern ID',
         },
         {
@@ -205,27 +203,27 @@ function addIntern() {
         },
     ])
         .then((data) => {
-            const intern = new Intern(data.internname, data.internID, data.email, data.school)
-            console.log(intern);
+
+            const intern = new Intern(data.name, data.employeeID, data.email, data.school)
 
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
                 }
 
-                let addCard = `<div class="card" style="width: 18rem;">
-                    <div class="card-body">
-                        <p>${intern.getName()}</p>
-                        <p>Intern</p>
-                    </div>
+                let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
+                <div class="card-body">
+                    <p>${intern.getName()}</p>
+                    <p><img src="icon/intern.ico"> Intern</p>
+                </div>
                     <div class="items">
                         <ul class="list-group">
-                            <li class="list-group-item">${intern.getId()}</li>
-                            <li class="list-group-item">${intern.getEmail()}</li>
-                            <li class="list-group-item">${intern.getSchool()}</li>
+                            <li class="list-group-item">ID: ${intern.getId()}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
+                            <li class="list-group-item">School: ${intern.getSchool()}</li>
                         </ul>
                     </div>
-                </div>`;
+                </div></div>`;
 
                 let result = data.replace(/\<\/section>/g, addCard + '</section>');
 

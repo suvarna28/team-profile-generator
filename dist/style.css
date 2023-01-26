@@ -14,14 +14,15 @@ main {
     color: azure;
 }
 
-.card {
-    gap: .5rem;
-}
-
-.list-group {
-    padding: 25px 15px;
+.cardpadding {
+    padding-top: 15px;
 }
 
 .items {
-    padding: auto;
+    padding: 15px 10px;
+}
+
+.shadow {
+    position: relative;
+    box-shadow: 1rem 2rem 2rem rgb(0 0 0 / 30%)
 }
