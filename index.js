@@ -40,7 +40,7 @@ const commonQuestions = [{
     message: 'Please select a option',
     name: 'choices',
     choices: ['Add an engineer', 'Add an intern', 'Finish building your team'],
-}];
+    }];
 
 // Function that uses inquirer package's prompt method to ask a series of questions to enter the employee info
 function init() {
@@ -89,23 +89,8 @@ function init() {
                 if (err) {
                     return console.log(err);
                 }
-
-                let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
-                    <div class="card-body">
-                        <p>${manager.getName()}</p>
-                        <p><img src="icon/coffee.ico"> Manager</p>
-                    </div>
-                    <div class="items">
-                        <ul class="list-group">
-                            <li class="list-group-item">ID: ${manager.getId()}</li>
-                            <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
-                            <li class="list-group-item">Office Number: ${manager.getOfficeNumber()}</li>
-                        </ul>
-                    </div>
-                </div></div>`;
-
-                let newCard = data.replace(/\<\/section>/g, addCard + '</section>');
-
+                const card = addCard(manager);
+                let newCard = data.replace(/\<\/section>/g, card + '</section>');
                 fs.writeFile('index.html', newCard, 'utf8', function (err) {
                     if (err) return console.log(err);
                 });
@@ -114,11 +99,9 @@ function init() {
             //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function 
             if (data.choices === 'Add an engineer') {
                 addEngineer();
-            }
-            if (data.choices === 'Add an intern') {
+            } else if (data.choices === 'Add an intern') {
                 addIntern();
-            }
-            if (data.choices === 'Finish building your team') {
+            } else (data.choices === 'Finish building your team') {
                 console.log('Team built successfully!')
             }
         });
@@ -147,23 +130,8 @@ function addEngineer() {
                 if (err) {
                     return console.log(err);
                 }
-
-                let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
-                    <div class="card-body">
-                        <p>${engineer.getName()}</p>
-                        <p><img src="icon/glasses.ico"> Engineer</p>
-                    </div>
-                    <div class="items">
-                        <ul class="list-group">
-                            <li class="list-group-item">ID: ${engineer.getId()}</li>
-                            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
-                            <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGitHub()}" target="_blank" class="card-link">${engineer.getGitHub()}</a></li>
-                        </ul>
-                    </div>
-                </div></div>`;
-
-                let newCard = data.replace(/\<\/section>/g, addCard + '</section>');
-
+                const card = addCard(engineer);
+                let newCard = data.replace(/\<\/section>/g, card + '</section>');
                 fs.writeFile('index.html', newCard, 'utf8', function (err) {
                     if (err) return console.log(err);
                 });
@@ -172,11 +140,9 @@ function addEngineer() {
             //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function
             if (data.choices === 'Add an engineer') {
                 addEngineer();
-            }
-            if (data.choices === 'Add an intern') {
+            } else if (data.choices === 'Add an intern') {
                 addIntern();
-            }
-            if (data.choices === 'Finish building your team') {
+            } else (data.choices === 'Finish building your team') {
                 console.log('Team built successfully!')
             }
         });
@@ -205,23 +171,8 @@ function addIntern() {
                 if (err) {
                     return console.log(err);
                 }
-
-                let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
-                <div class="card-body">
-                    <p>${intern.getName()}</p>
-                    <p><img src="icon/intern.ico"> Intern</p>
-                </div>
-                    <div class="items">
-                        <ul class="list-group">
-                            <li class="list-group-item">ID: ${intern.getId()}</li>
-                            <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
-                            <li class="list-group-item">School: ${intern.getSchool()}</li>
-                        </ul>
-                    </div>
-                </div></div>`;
-
-                let newCard = data.replace(/\<\/section>/g, addCard + '</section>');
-
+                const card = addCard(intern);
+                let newCard = data.replace(/\<\/section>/g, card + '</section>');
                 fs.writeFile('index.html', newCard, 'utf8', function (err) {
                     if (err) return console.log(err);
                 });
@@ -230,15 +181,37 @@ function addIntern() {
             //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function
             if (data.choices === 'Add an engineer') {
                 addEngineer();
-            }
-            if (data.choices === 'Add an intern') {
+            } else if (data.choices === 'Add an intern') {
                 addIntern();
-            }
-            if (data.choices === 'Finish building your team') {
+            } else (data.choices === 'Finish building your team') {
                 console.log('Team built successfully!')
             }
         });
 }
 
+//Function to add each card based on instance of Manager, Engineer or Intern 
+function addCard(employeeHere) {
+    let addCard = `<div class="col-md-4 col-sm-12 cardpadding"><div class="card shadow" style="width: 18rem;">
+                    <div class="card-body">
+                        <p>${employeeHere.getName()}</p>
+                            ${(employeeHere instanceof Manager) ? `<p><img src="icon/coffee.ico"> Manager</p>` : ``}
+                            ${(employeeHere instanceof Engineer) ? `<p><img src="icon/glasses.ico"> Engineer</p>` : ``}
+                            ${(employeeHere instanceof Intern) ? `<p><img src="icon/intern.ico"> Intern</p>` : ``}
+                    </div>
+                    <div class="items">
+                        <ul class="list-group">
+                            <li class="list-group-item">ID: ${employeeHere.getId()}</li>
+                            <li class="list-group-item">Email: <a href="mailto:${employeeHere.getEmail()}">${employeeHere.getEmail()}</a></li>
+                            ${(employeeHere instanceof Manager) ? `<li class="list-group-item">Office Number: ${employeeHere.getOfficeNumber()}</li>` : ``}
+                            ${(employeeHere instanceof Engineer) ? `<li class="list-group-item">GitHub: <a href="https://github.com/${employeeHere.getGitHub()}" target="_blank" class="card-link">${employeeHere.getGitHub()}</a></li>` : ``}
+                            ${(employeeHere instanceof Intern) ? `<li class="list-group-item">School: ${employeeHere.getSchool()}</li>` : ``}
+                            
+                        </ul>
+                    </div>
+                </div></div>`;
+    return addCard;
+}
+
 // Function call that initializes the app
 init();
+
