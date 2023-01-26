@@ -26,3 +26,7 @@ main {
     position: relative;
     box-shadow: 1rem 2rem 2rem rgb(0 0 0 / 30%)
 }
+
+a {
+    text-decoration: none !important;
+}

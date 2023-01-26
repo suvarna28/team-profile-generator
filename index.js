@@ -26,6 +26,9 @@ const commonQuestions = [{
         if (isNaN(answer)) {
             return "Please enter a number";
         }
+        if (idArray.includes(answer)) { 
+            return "ID already taken, please enter a new ID";
+        }
         idArray.push(answer)
         return true;
     },
@@ -101,7 +104,7 @@ function init() {
                 addEngineer();
             } else if (data.choices === 'Add an intern') {
                 addIntern();
-            } else (data.choices === 'Finish building your team') {
+            } else {
                 console.log('Team built successfully!')
             }
         });
@@ -125,7 +128,7 @@ function addEngineer() {
             //Create engineer object
             const engineer = new Engineer(data.name, data.employeeID, data.email, data.githubusername)
 
-            //Write to index.html file and create a card based on emgineer info
+             //Write to index.html file and create a card based on card returned from 'addCard' function
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
@@ -142,7 +145,7 @@ function addEngineer() {
                 addEngineer();
             } else if (data.choices === 'Add an intern') {
                 addIntern();
-            } else (data.choices === 'Finish building your team') {
+            } else {
                 console.log('Team built successfully!')
             }
         });
@@ -166,7 +169,7 @@ function addIntern() {
             //Create intern object
             const intern = new Intern(data.name, data.employeeID, data.email, data.school)
 
-            //Write to index.html file and create a card based on intern info
+            //Write to index.html file and create a card based on card returned from 'addCard' function
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
@@ -183,7 +186,7 @@ function addIntern() {
                 addEngineer();
             } else if (data.choices === 'Add an intern') {
                 addIntern();
-            } else (data.choices === 'Finish building your team') {
+            } else  {
                 console.log('Team built successfully!')
             }
         });
