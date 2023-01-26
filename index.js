@@ -6,42 +6,54 @@ const Employee = require('./lib/employee');
 const fs = require('fs');
 
 let idArray = [];
+
+const commonQuestions = [{
+    type: 'input',
+    name: 'name',
+    message: 'Enter you name',
+    validate: (answer) => {
+        if (!answer) {
+            return "Please enter a name";
+        }
+        return true;
+    },
+},
+{
+    type: 'input',
+    name: 'employeeID',
+    message: 'Enter your employee ID',
+    validate: (answer) => {
+        if (isNaN(answer)) {
+            return "Please enter a number";
+        }
+        idArray.push(answer)
+        return true;
+    },
+},
+{
+    type: 'input',
+    name: 'email',
+    message: 'Enter your email address',
+},
+{
+    type: 'list',
+    message: 'Please select a option',
+    name: 'choices',
+    choices: ['Add an engineer', 'Add an intern', 'Finish building your team'],
+}];
+
 // Function that uses inquirer package's prompt method to ask a series of questions to enter the employee info
 function init() {
     inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'Enter you name',
-        },
-        {
-            type: 'input',
-            name: 'employeeID',
-            message: 'Enter your employee ID',
-            validate: (answer) => {
-                if (isNaN(answer)) {
-                    return "Please enter a number";
-                }
-                idArray.push(answer)
-                return true;
-            },
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: 'Enter your email address',
-        },
+        commonQuestions[0],
+        commonQuestions[1],
+        commonQuestions[2],
         {
             type: 'input',
             name: 'officenumber',
             message: 'Enter your office number',
         },
-        {
-            type: 'list',
-            message: 'Please select a option',
-            name: 'choices',
-            choices: ['Add an engineer', 'Add an intern', 'Finish building your team'],
-        },
+        commonQuestions[3],
     ])
         .then((data) => {
             //The first person is a manager so create a manager object
@@ -115,42 +127,15 @@ function init() {
 //Function to add an engineer to the team 
 function addEngineer() {
     inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'Enter you name',
-        },
-        {
-            type: 'input',
-            name: 'employeeID',
-            message: 'Enter your employee ID',
-            validate: (answer) => {
-                if (isNaN(answer)) {
-                    return "Please enter a number";
-                }
-                if (idArray.includes(answer)) { 
-                    return "ID already taken, please enter a new ID";
-                }
-                idArray.push(answer)
-                return true;
-            },
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: 'Enter your email address',
-        },
+        commonQuestions[0],
+        commonQuestions[1],
+        commonQuestions[2],
         {
             type: 'input',
             name: 'githubusername',
             message: 'Enter your githubusername',
         },
-        {
-            type: 'list',
-            message: 'Please select a option',
-            name: 'choices',
-            choices: ['Add an engineer', 'Add an intern', 'Finish building your team'],
-        },
+        commonQuestions[3],
     ])
         .then((data) => {
 
@@ -200,49 +185,22 @@ function addEngineer() {
 //Function to add an intern to the team 
 function addIntern() {
     inquirer.prompt([
-        {
-            type: 'input',
-            name: 'name',
-            message: 'Enter you name',
-        },
-        {
-            type: 'input',
-            name: 'employeeID',
-            message: 'Enter your intern ID',
-            validate: (answer) => {
-                if (isNaN(answer)) {
-                    return "Please enter a number";
-                }
-                if (idArray.includes(answer)) { 
-                    return "ID already taken, please enter a new ID";
-                }
-                idArray.push(answer)
-                return true;
-            },
-        },
-        {
-            type: 'input',
-            name: 'email',
-            message: 'Enter your email address',
-        },
+        commonQuestions[0],
+        commonQuestions[1],
+        commonQuestions[2],
         {
             type: 'input',
             name: 'school',
             message: 'Enter your school name',
         },
-        {
-            type: 'list',
-            message: 'Please select a option',
-            name: 'choices',
-            choices: ['Add an engineer', 'Add an intern', 'Finish building your team'],
-        },
+        commonQuestions[3],
     ])
         .then((data) => {
 
-             //Create intern object
+            //Create intern object
             const intern = new Intern(data.name, data.employeeID, data.email, data.school)
 
-             //Write to index.html file and create a card based on intern info
+            //Write to index.html file and create a card based on intern info
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
