@@ -5,7 +5,8 @@ const Intern = require('./lib/intern');
 const Employee = require('./lib/employee');
 const fs = require('fs');
 
-// Function that uses inquirer package's prompt method to ask a series of questions to the users to create the README file
+let idArray = [];
+// Function that uses inquirer package's prompt method to ask a series of questions to enter the employee info
 function init() {
     inquirer.prompt([
         {
@@ -17,6 +18,13 @@ function init() {
             type: 'input',
             name: 'employeeID',
             message: 'Enter your employee ID',
+            validate: (answer) => {
+                if (isNaN(answer)) {
+                    return "Please enter a number";
+                }
+                idArray.push(answer)
+                return true;
+            },
         },
         {
             type: 'input',
@@ -36,7 +44,7 @@ function init() {
         },
     ])
         .then((data) => {
-
+            //The first person is a manager so create a manager object
             const manager = new Manager(data.name, data.employeeID, data.email, data.officenumber)
             const myHTML = `<!DOCTYPE html>
     <html lang="en">
@@ -59,11 +67,12 @@ function init() {
         </main>
     </body>
     </html>`;
-
+            //Create index.html file
             fs.writeFile('index.html', myHTML, (err) =>
                 err ? console.log(err) : console.log()
             );
 
+            //Write to index.html file and create a card based on manager info
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
@@ -83,13 +92,14 @@ function init() {
                     </div>
                 </div></div>`;
 
-                let result = data.replace(/\<\/section>/g, addCard + '</section>');
+                let newCard = data.replace(/\<\/section>/g, addCard + '</section>');
 
-                fs.writeFile('index.html', result, 'utf8', function (err) {
+                fs.writeFile('index.html', newCard, 'utf8', function (err) {
                     if (err) return console.log(err);
                 });
             });
 
+            //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function 
             if (data.choices === 'Add an engineer') {
                 addEngineer();
             }
@@ -102,6 +112,7 @@ function init() {
         });
 }
 
+//Function to add an engineer to the team 
 function addEngineer() {
     inquirer.prompt([
         {
@@ -113,6 +124,16 @@ function addEngineer() {
             type: 'input',
             name: 'employeeID',
             message: 'Enter your employee ID',
+            validate: (answer) => {
+                if (isNaN(answer)) {
+                    return "Please enter a number";
+                }
+                if (idArray.includes(answer)) { 
+                    return "ID already taken, please enter a new ID";
+                }
+                idArray.push(answer)
+                return true;
+            },
         },
         {
             type: 'input',
@@ -133,8 +154,10 @@ function addEngineer() {
     ])
         .then((data) => {
 
+            //Create engineer object
             const engineer = new Engineer(data.name, data.employeeID, data.email, data.githubusername)
 
+            //Write to index.html file and create a card based on emgineer info
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
@@ -154,13 +177,14 @@ function addEngineer() {
                     </div>
                 </div></div>`;
 
-                let result = data.replace(/\<\/section>/g, addCard + '</section>');
+                let newCard = data.replace(/\<\/section>/g, addCard + '</section>');
 
-                fs.writeFile('index.html', result, 'utf8', function (err) {
+                fs.writeFile('index.html', newCard, 'utf8', function (err) {
                     if (err) return console.log(err);
                 });
             });
 
+            //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function
             if (data.choices === 'Add an engineer') {
                 addEngineer();
             }
@@ -173,6 +197,7 @@ function addEngineer() {
         });
 }
 
+//Function to add an intern to the team 
 function addIntern() {
     inquirer.prompt([
         {
@@ -184,6 +209,16 @@ function addIntern() {
             type: 'input',
             name: 'employeeID',
             message: 'Enter your intern ID',
+            validate: (answer) => {
+                if (isNaN(answer)) {
+                    return "Please enter a number";
+                }
+                if (idArray.includes(answer)) { 
+                    return "ID already taken, please enter a new ID";
+                }
+                idArray.push(answer)
+                return true;
+            },
         },
         {
             type: 'input',
@@ -204,8 +239,10 @@ function addIntern() {
     ])
         .then((data) => {
 
+             //Create intern object
             const intern = new Intern(data.name, data.employeeID, data.email, data.school)
 
+             //Write to index.html file and create a card based on intern info
             fs.readFile('index.html', 'utf8', function (err, data) {
                 if (err) {
                     return console.log(err);
@@ -225,12 +262,14 @@ function addIntern() {
                     </div>
                 </div></div>`;
 
-                let result = data.replace(/\<\/section>/g, addCard + '</section>');
+                let newCard = data.replace(/\<\/section>/g, addCard + '</section>');
 
-                fs.writeFile('index.html', result, 'utf8', function (err) {
+                fs.writeFile('index.html', newCard, 'utf8', function (err) {
                     if (err) return console.log(err);
                 });
             });
+
+            //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function
             if (data.choices === 'Add an engineer') {
                 addEngineer();
             }
