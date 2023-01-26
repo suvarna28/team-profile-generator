@@ -13,7 +13,7 @@ describe("Engineer", () => {
             expect(engineer.github).toEqual("suvarna28");
         });
 
-        // Test to check if 'name' is a string 
+        // Test to check if 'name' is a non-empty string 
         it("should throw an error if 'name' is not a string", () => {
             const engineer = () => new Engineer(3, 3, "jadhav.suvarna28@gmail.com", "suvarna28");
             const err = new Error("Expected parameter 'name' to be a non-empty string");

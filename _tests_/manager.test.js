@@ -13,7 +13,7 @@ describe("Manager", () => {
             expect(manager.officeNumber).toEqual("2024457523");
         });
 
-        // Test to check if 'name' is a string 
+        // Test to check if 'name' is a non-empty string 
         it("should throw an error if 'name' is not a string", () => {
             const manager = () => new Manager(3, 3, "jadhav.suvarna28@gmail.com", "2024457523");
             const err = new Error("Expected parameter 'name' to be a non-empty string");

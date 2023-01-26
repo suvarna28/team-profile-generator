@@ -1,3 +1,4 @@
+/* Styling for the header section */
 header {
     padding: 50px;
     background-color: rgb(213, 47, 75);
@@ -5,28 +6,35 @@ header {
     text-align: center;
 }
 
+/* Padding for the main section */
 main {
     padding: 50px 250px;
 }
 
+
+/* Styling for card body */
 .card-body {
     background-color: rgb(59, 72, 254);
     color: azure;
 }
 
+/* Padding for the card */
 .cardpadding {
     padding-top: 25px;
 }
 
+/* Padding for the list items */
 .items {
     padding: 15px 10px;
 }
 
+/* Styling for card shadow */
 .shadow {
     position: relative;
     box-shadow: 1rem 2rem 2rem rgb(0 0 0 / 30%)
 }
 
+/* Anchor tag styling */
 a {
     text-decoration: none !important;
 }

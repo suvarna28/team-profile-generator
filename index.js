@@ -5,8 +5,10 @@ const Intern = require('./lib/intern');
 const Employee = require('./lib/employee');
 const fs = require('fs');
 
+// Array to store unique IDs for the employees
 let idArray = [];
 
+// Array for common questions for all the employees
 const commonQuestions = [{
     type: 'input',
     name: 'name',
@@ -92,6 +94,7 @@ function init() {
                 if (err) {
                     return console.log(err);
                 }
+                //Function call that creates card
                 const card = addCard(manager);
                 let newCard = data.replace(/\<\/section>/g, card + '</section>');
                 fs.writeFile('index.html', newCard, 'utf8', function (err) {
@@ -133,6 +136,7 @@ function addEngineer() {
                 if (err) {
                     return console.log(err);
                 }
+                //Function call that creates card
                 const card = addCard(engineer);
                 let newCard = data.replace(/\<\/section>/g, card + '</section>');
                 fs.writeFile('index.html', newCard, 'utf8', function (err) {
@@ -174,6 +178,7 @@ function addIntern() {
                 if (err) {
                     return console.log(err);
                 }
+                //Function call that creates card
                 const card = addCard(intern);
                 let newCard = data.replace(/\<\/section>/g, card + '</section>');
                 fs.writeFile('index.html', newCard, 'utf8', function (err) {
