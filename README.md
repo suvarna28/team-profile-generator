@@ -39,3 +39,4 @@ https://drive.google.com/file/d/1nbGsxvBP2YiOC-WYOobg9UdkNhw41wVK/view
 
 * Our TA, Sebastian for answering homework related doubts. 
 * Stackoverflow for 'validate' in prompt inquirer and also for learning how to write to an already existing html file.(https://stackoverflow.com/questions/44127153/how-to-append-a-code-snippet-to-html-using-node-fs)
+* Favicon for generating icons for manager, engineer and intern.(https://www.favicon.cc/)
