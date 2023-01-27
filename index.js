@@ -4,10 +4,8 @@ const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 const Employee = require('./lib/employee');
 const fs = require('fs');
-
 // Array to store unique IDs for the employees
 let idArray = [];
-
 // Array for common questions for all the employees
 const commonQuestions = [{
     type: 'input',
@@ -88,28 +86,8 @@ function init() {
             fs.writeFile('index.html', myHTML, (err) =>
                 err ? console.log(err) : console.log()
             );
-
-            //Write to index.html file and create a card based on manager info
-            fs.readFile('index.html', 'utf8', function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                //Function call that creates card
-                const card = addCard(manager);
-                let newCard = data.replace(/\<\/section>/g, card + '</section>');
-                fs.writeFile('index.html', newCard, 'utf8', function (err) {
-                    if (err) return console.log(err);
-                });
-            });
-
-            //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function 
-            if (data.choices === 'Add an engineer') {
-                addEngineer();
-            } else if (data.choices === 'Add an intern') {
-                addIntern();
-            } else {
-                console.log('Team built successfully!')
-            }
+            //Function call to a function that writes to the index.html file 
+            writeToFile(manager, data);
         });
 }
 
@@ -127,31 +105,9 @@ function addEngineer() {
         commonQuestions[3],
     ])
         .then((data) => {
-
             //Create engineer object
             const engineer = new Engineer(data.name, data.employeeID, data.email, data.githubusername)
-
-             //Write to index.html file and create a card based on card returned from 'addCard' function
-            fs.readFile('index.html', 'utf8', function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                //Function call that creates card
-                const card = addCard(engineer);
-                let newCard = data.replace(/\<\/section>/g, card + '</section>');
-                fs.writeFile('index.html', newCard, 'utf8', function (err) {
-                    if (err) return console.log(err);
-                });
-            });
-
-            //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function
-            if (data.choices === 'Add an engineer') {
-                addEngineer();
-            } else if (data.choices === 'Add an intern') {
-                addIntern();
-            } else {
-                console.log('Team built successfully!')
-            }
+            writeToFile(engineer, data);
         });
 }
 
@@ -169,32 +125,34 @@ function addIntern() {
         commonQuestions[3],
     ])
         .then((data) => {
-
             //Create intern object
             const intern = new Intern(data.name, data.employeeID, data.email, data.school)
-
-            //Write to index.html file and create a card based on card returned from 'addCard' function
-            fs.readFile('index.html', 'utf8', function (err, data) {
-                if (err) {
-                    return console.log(err);
-                }
-                //Function call that creates card
-                const card = addCard(intern);
-                let newCard = data.replace(/\<\/section>/g, card + '</section>');
-                fs.writeFile('index.html', newCard, 'utf8', function (err) {
-                    if (err) return console.log(err);
-                });
-            });
-
-            //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function
-            if (data.choices === 'Add an engineer') {
-                addEngineer();
-            } else if (data.choices === 'Add an intern') {
-                addIntern();
-            } else  {
-                console.log('Team built successfully!')
-            }
+            //Function call to a function that writes to the index.html file 
+            writeToFile(intern, data);
         });
+}
+
+//Function to write to index.html file and create a card based on manager info
+function writeToFile(employeeObject, data) { 
+    fs.readFile('index.html', 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        //Function call that creates card
+        const card = addCard(employeeObject);
+        let newCard = data.replace(/\<\/section>/g, card + '</section>');
+        fs.writeFile('index.html', newCard, 'utf8', function (err) {
+            if (err) return console.log(err);
+        });
+    });
+    //Based on choice selected in the 'Please select a option' question, call addengineer or addintern function 
+    if (data.choices === 'Add an engineer') {
+        addEngineer();
+    } else if (data.choices === 'Add an intern') {
+        addIntern();
+    } else {
+        console.log('Team built successfully!')
+    }
 }
 
 //Function to add each card based on instance of Manager, Engineer or Intern 
